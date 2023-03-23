@@ -21,8 +21,10 @@ class MainActivity : AppCompatActivity() {
         val wn = BallLotteryChecker.checkWinningNumbers(BallRandomHelper.buyOnGroup())
         val r = wn.hitRedCount
         val b = wn.hitBlueCount
+        val l = wn.winMoney
         BLog.log("r = $r")
         BLog.log("b = $b")
+        BLog.log("l = $l")
 
     }
 }

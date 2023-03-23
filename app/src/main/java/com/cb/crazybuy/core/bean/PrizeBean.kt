@@ -1,4 +1,4 @@
-package com.cb.crazybuy.bean
+package com.cb.crazybuy.core.bean
 
 /**
  * @Author: duke

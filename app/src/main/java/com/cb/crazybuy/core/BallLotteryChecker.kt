@@ -1,7 +1,7 @@
 package com.cb.crazybuy.core
 
-import com.cb.crazybuy.bean.StatusBean
-import com.cb.crazybuy.bean.WinningNumber
+import com.cb.crazybuy.core.bean.StatusBean
+import com.cb.crazybuy.core.bean.WinningNumber
 import com.cb.crazybuy.util.BLog
 
 /**

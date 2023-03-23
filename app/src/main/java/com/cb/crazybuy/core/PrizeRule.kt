@@ -1,6 +1,6 @@
 package com.cb.crazybuy.core
 
-import com.cb.crazybuy.bean.PrizeBean
+import com.cb.crazybuy.core.bean.PrizeBean
 
 /**
  * @Author: duke

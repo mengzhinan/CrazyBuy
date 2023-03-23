@@ -24,7 +24,7 @@ class BallGroupLayout @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     companion object {
-        private const val tvCount = 7
+        private const val VIEW_COUNT = 7
     }
 
     init {
@@ -87,7 +87,7 @@ class BallGroupLayout @JvmOverloads constructor(
     }
 
     private fun addTextViews() {
-        for (index in 0 until tvCount) {
+        for (index in 0 until VIEW_COUNT) {
             val textView = TextView(context)
             textView.text = "?"
             textView.textSize = 18f
@@ -114,11 +114,11 @@ class BallGroupLayout @JvmOverloads constructor(
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
 
         // 控制布局的宽高，确保每个小球都是圆形的
-        if (thisWidth > thisHeight * tvCount) {
-            thisWidth = thisHeight * tvCount
+        if (thisWidth > thisHeight * VIEW_COUNT) {
+            thisWidth = thisHeight * VIEW_COUNT
         }
-        if (thisWidth / tvCount < thisHeight) {
-            thisHeight = thisWidth / tvCount
+        if (thisWidth / VIEW_COUNT < thisHeight) {
+            thisHeight = thisWidth / VIEW_COUNT
         }
 
         val eachChildSide = thisHeight
@@ -163,8 +163,8 @@ class BallGroupLayout @JvmOverloads constructor(
 
                 if (myNumArray == null
                     || prizeNumArray == null
-                    || myNumLength != tvCount
-                    || prizeNumLength != tvCount
+                    || myNumLength != VIEW_COUNT
+                    || prizeNumLength != VIEW_COUNT
                 ) {
                     // 无效数据，设置默认颜色
                     tv.text = "?"

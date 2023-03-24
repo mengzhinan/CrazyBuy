@@ -1,9 +1,13 @@
 package com.cb.crazybuy.core
 
+import android.content.Context
+import com.cb.crazybuy.R
 import com.cb.crazybuy.core.bean.BuyNumBallHitInfo
-import com.cb.crazybuy.core.bean.StatusBean
 import com.cb.crazybuy.core.bean.BuyNumInfo
+import com.cb.crazybuy.core.bean.StatusBean
 import com.cb.crazybuy.util.BLog
+import com.cb.crazybuy.util.BaseSPUtil
+import com.cb.crazybuy.util.CommonUtil
 
 /**
  * @Author: duke
@@ -19,24 +23,44 @@ object BallLotteryChecker {
     private val lotteryNumberList = mutableListOf<Int>()
 
     /**
+     * 加载上次设置的开奖号码
+     */
+    fun loadLastLotteryIfExists(context: Context): StatusBean {
+        val key = context.getString(R.string.sp_save_lottery_num)
+        val str = BaseSPUtil.getString(context, key, "")
+        if (str.trim().isEmpty()) {
+            CommonUtil.toast(context, "未读取到默认开奖号码")
+            return StatusBean(false, "failure. 未读取到默认开奖号码")
+        }
+        val list = str.split(",")
+        if (list.size != 7) {
+            CommonUtil.toast(context, "默认开奖号码无效")
+            return StatusBean(false, "failure. 默认开奖号码无效")
+        }
+        return setCurrentLotteryNumber(context, list)
+    }
+
+    /**
      * 设置开奖号码。总共 7 个号码
      */
-    fun setCurrentLotteryNumber(vararg args: String): StatusBean {
+    fun setCurrentLotteryNumber(context: Context, list: List<String>): StatusBean {
+        var strNumSP = ""
         lotteryNumberList.clear()
         var blue = 0
-        for (index in args.indices) {
+        for (index in list.indices) {
             try {
-                val n = args[index].trim().toInt()
+                val n = list[index].trim().toInt()
                 if (n > BallRandomHelper.getRangeMaxRed()) {
                     return StatusBean(
                         false, "failure. args of $n is out of ${BallRandomHelper.getRangeMaxRed()}"
                     )
                 }
-                if (index == args.size - 1) {
+                if (index == list.size - 1) {
                     // 篮球暂时不放进去，等红求排序完成后，最后单独放入
                     blue = n
                 } else {
                     lotteryNumberList.add(n)
+                    strNumSP += "$n,"
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -45,10 +69,16 @@ object BallLotteryChecker {
         }
         lotteryNumberList.sort()
         lotteryNumberList.add(blue)
+        strNumSP += "$blue"
         if (lotteryNumberList.size != 7) {
             return StatusBean(false, "failure. args 参数个数应该是 7 个")
         }
         BLog.log("BallLotteryChecker.setCurrentLotteryNumber() 设置开奖号码：$lotteryNumberList")
+
+        // 保存 sp
+        val key = context.getString(R.string.sp_save_lottery_num)
+        BaseSPUtil.putData(context, key, strNumSP, isCommit = true)
+
         return StatusBean(true, "success")
     }
 

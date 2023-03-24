@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">CrazyBuy</string>
+
+    <string name="sp_save_lottery_num">sp_save_lottery_num</string>
+
 </resources>

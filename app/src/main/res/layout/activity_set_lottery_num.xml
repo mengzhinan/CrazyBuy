@@ -6,4 +6,90 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.SetLotteryNumActivity">
 
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确认"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_red_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="红球1"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_confirm" />
+
+    <EditText
+        android:id="@+id/et_red_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="红球2"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_red_1" />
+
+    <EditText
+        android:id="@+id/et_red_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="红球3"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_red_2" />
+
+    <EditText
+        android:id="@+id/et_red_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="红球4"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_red_3" />
+
+    <EditText
+        android:id="@+id/et_red_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="红球5"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_red_4" />
+
+    <EditText
+        android:id="@+id/et_red_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="红球6"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_red_5" />
+
+    <EditText
+        android:id="@+id/et_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="篮球"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_red_6" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

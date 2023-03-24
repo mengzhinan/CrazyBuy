@@ -46,19 +46,26 @@ object BallLotteryChecker {
     /**
      * 设置开奖号码。总共 7 个号码
      */
-    fun setCurrentLotteryNumber(context: Context, list: List<String>): StatusBean {
+    fun setCurrentLotteryNumber(context: Context, listPram: List<String>): StatusBean {
+        val sortedList = mutableListOf<String>()
+        for (index in listPram.indices) {
+            val newItem =
+                if (listPram[index].length == 1) "0${listPram[index]}" else listPram[index]
+            sortedList.add(newItem)
+        }
+        sortedList.sort()
         var strNumSP = ""
         lotteryNumberList.clear()
         var blue = 0
-        for (index in list.indices) {
+        for (index in sortedList.indices) {
             try {
-                val n = list[index].trim().toInt()
+                val n = sortedList[index].trim().toInt()
                 if (n > BallRandomHelper.getRangeMaxRed()) {
                     return StatusBean(
                         false, "failure. args of $n is out of ${BallRandomHelper.getRangeMaxRed()}"
                     )
                 }
-                if (index == list.size - 1) {
+                if (index == sortedList.size - 1) {
                     // 篮球暂时不放进去，等红求排序完成后，最后单独放入
                     blue = n
                 } else {

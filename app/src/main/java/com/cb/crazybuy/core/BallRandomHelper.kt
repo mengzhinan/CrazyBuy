@@ -42,9 +42,11 @@ object BallRandomHelper {
         val set = mutableSetOf<String>()
         do {
             val n = randomNum(random, RANGE_MAX_RED)
-            set.add("$n")
+            val strN = if (n.length == 1) "0$n" else "$n"
+            set.add(strN)
         } while (set.size < COUNT_MAX_RED)
         val list = set.toMutableList()
+        // 对字符串排序
         list.sort()
         return list
     }

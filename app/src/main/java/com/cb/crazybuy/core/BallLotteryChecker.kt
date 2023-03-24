@@ -12,6 +12,8 @@ import com.cb.crazybuy.util.BLog
  */
 object BallLotteryChecker {
 
+    const val NO_NUMBER = -1
+
     // 开奖号码
     private val lotteryNumberList = mutableListOf<Int>()
 
@@ -70,18 +72,15 @@ object BallLotteryChecker {
         // 加入购买的红球，并找出命中的红球
         for (item in bRedList) {
             if (!commonSet.add(item)) {
+                // 重复了，已经存在。即命中了
                 hitRedList.add(item)
+            } else {
+                hitRedList.add(NO_NUMBER)
             }
         }
 
         // set 不能加入重复数字的，如果 6*2 - set.size 即为中奖号码个数
         val hitRedCount = lRedList.size.shl(1) - commonSet.size
-//        val hitRedCount = hitRedList.size
-
-        // 未命中的红球，补充占位符
-        while (hitRedList.size < 6) {
-            hitRedList.add(-1)
-        }
 
         val lLastItem = lotteryNumberList[lotteryNumberList.size - 1]
         val bLastItem = buyGroupList[buyGroupList.size - 1]
@@ -90,7 +89,7 @@ object BallLotteryChecker {
             hitRedList.add(bLastItem)
             1
         } else {
-            hitRedList.add(-1)
+            hitRedList.add(NO_NUMBER)
             0
         }
 
@@ -99,7 +98,8 @@ object BallLotteryChecker {
         val prizeBean = PrizeRule.getPrizeBean(hitRedCount, hitBlueCount)
         wn.hitRedCount = hitRedCount
         wn.hitBlueCount = hitBlueCount
-        wn.winMoney = prizeBean.winMoney
+        wn.winMoneyInt = prizeBean.winMoneyInt
+        wn.winMoneyStr = prizeBean.winMoneyStr
         wn.winLevelOrFailureDesc = prizeBean.winLevelDesc
         wn.lotteryBallBKP = lotteryNumberList.toString()
         wn.buyGroupBKP = buyGroupList.toString()

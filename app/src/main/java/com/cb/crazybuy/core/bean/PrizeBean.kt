@@ -9,6 +9,7 @@ package com.cb.crazybuy.core.bean
 data class PrizeBean @JvmOverloads constructor(
     var hitRedCount: Int = 0,
     var hitBlueCount: Int = 0,
-    var winMoney: String? = null,
+    var winMoneyInt: Int = 0,
+    var winMoneyStr: String? = null,
     var winLevelDesc: String? = null
 )

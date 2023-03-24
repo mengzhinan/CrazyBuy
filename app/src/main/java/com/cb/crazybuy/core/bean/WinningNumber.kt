@@ -9,7 +9,8 @@ package com.cb.crazybuy.core.bean
 data class WinningNumber @JvmOverloads constructor(
     var hitRedCount: Int = 0,
     var hitBlueCount: Int = 0,
-    var winMoney: String? = null,
+    var winMoneyInt: Int = 0,
+    var winMoneyStr: String? = null,
     var winLevelOrFailureDesc: String? = null,
     var lotteryBallBKP: String? = null,
     var buyGroupBKP: String? = null,

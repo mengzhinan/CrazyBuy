@@ -6,6 +6,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.cb.crazybuy.R
 import com.cb.crazybuy.core.BallLotteryChecker
+import com.cb.crazybuy.util.BaseSPUtil
 import com.cb.crazybuy.util.CommonUtil
 
 class SetLotteryNumActivity : AppCompatActivity() {
@@ -30,6 +31,8 @@ class SetLotteryNumActivity : AppCompatActivity() {
         etRed5 = findViewById(R.id.et_red_5)
         etRed6 = findViewById(R.id.et_red_6)
         etBlue = findViewById(R.id.et_blue)
+
+        loadDefaultNum()
 
         btnConfirm.setOnClickListener {
             val strRed1 = etRed1.text?.toString() ?: ""
@@ -84,6 +87,19 @@ class SetLotteryNumActivity : AppCompatActivity() {
             } else {
                 CommonUtil.toast(this, "开奖号码设置失败")
             }
+        }
+    }
+
+    private fun loadDefaultNum() {
+        val key = getString(R.string.sp_save_lottery_num)
+        val str = BaseSPUtil.getString(this, key, "")
+        val list = str.split(",")
+        if (list.size != 7) {
+            return
+        }
+        val listView = listOf(etRed1, etRed2, etRed3, etRed4, etRed5, etRed6, etBlue)
+        for (index in list.indices) {
+            listView[index].setText(list[index])
         }
     }
 

@@ -111,9 +111,9 @@ object BallLotteryChecker {
             val intItem = CommonUtil.stringToIntSafe(item)
             if (!commonSet.add(intItem)) {
                 // 重复了，已经存在。即命中了
-                hitRedList.add(makeBuyNum(intItem))
+                hitRedList.add(BuyNumBallHitInfo(intItem, true))
             } else {
-                hitRedList.add(makeBuyNum(NO_NUMBER))
+                hitRedList.add(BuyNumBallHitInfo(intItem, false))
             }
         }
 
@@ -128,10 +128,10 @@ object BallLotteryChecker {
         val intBLastItem = CommonUtil.stringToIntSafe(bLastItem)
         val hitBlueCount = if (lLastItem == intBLastItem) {
             // 最后，如果命中篮球，则加入篮球
-            hitRedList.add(makeBuyNum(intBLastItem))
+            hitRedList.add(BuyNumBallHitInfo(intBLastItem, true))
             1
         } else {
-            hitRedList.add(makeBuyNum(NO_NUMBER))
+            hitRedList.add(BuyNumBallHitInfo(intBLastItem, false))
             0
         }
 
@@ -147,10 +147,6 @@ object BallLotteryChecker {
         wn.buyNumList = hitRedList
 
         return wn
-    }
-
-    private fun makeBuyNum(num: Int): BuyNumBallHitInfo {
-        return BuyNumBallHitInfo(num, num != NO_NUMBER)
     }
 
 }

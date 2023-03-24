@@ -12,7 +12,16 @@
         android:theme="@style/Theme.CrazyBuy"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.CheckNumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.AutoBuyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.SetLotteryNumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

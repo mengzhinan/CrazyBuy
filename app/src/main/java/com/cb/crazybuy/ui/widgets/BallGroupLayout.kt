@@ -1,4 +1,4 @@
-package com.cb.crazybuy.views
+package com.cb.crazybuy.ui.widgets
 
 import android.annotation.SuppressLint
 import android.content.Context

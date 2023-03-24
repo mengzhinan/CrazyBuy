@@ -72,15 +72,15 @@ class AutoBuyActivity : AppCompatActivity() {
             }
 
             btnBuy.isClickable = false
-            etMoney.setText("")
             etMoney.clearFocus()
 
             if (intMoney % 2 != 0) {
                 intMoney += 1
+                etMoney.setText("$intMoney")
             }
             CommonUtil.hideKeyBoard(this, btnBuy)
             btnBuy.postDelayed({
-                buyRandomNum(intMoney)
+                buyRandomNum(intMoney, etMoney)
             }, 200)
         }
     }
@@ -107,7 +107,7 @@ class AutoBuyActivity : AppCompatActivity() {
         notHitCount = 0
     }
 
-    private fun buyRandomNum(money: Int) {
+    private fun buyRandomNum(money: Int, editText: EditText) {
         resetCounts()
         val size = money / 2
         for (index in 1..size) {
@@ -141,6 +141,7 @@ class AutoBuyActivity : AppCompatActivity() {
             tvHitProbability.text =
                 "中奖概率：$notHitCount/$size=${(size - notHitCount) * 1.0f * 100 / size}"
         }
+        editText.setText("")
         btnBuy.isClickable = true
     }
 }

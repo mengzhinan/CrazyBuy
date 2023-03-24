@@ -24,6 +24,8 @@ class AutoBuyActivity : AppCompatActivity() {
     private lateinit var tvLevel4: TextView
     private lateinit var tvLevel5: TextView
     private lateinit var tvLevel6: TextView
+    private lateinit var tvNotHitCount: TextView
+    private lateinit var tvHitProbability: TextView
 
     private var totalMoney = 0
     private var level1Num = 0
@@ -32,6 +34,7 @@ class AutoBuyActivity : AppCompatActivity() {
     private var level4Num = 0
     private var level5Num = 0
     private var level6Num = 0
+    private var notHitCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,8 @@ class AutoBuyActivity : AppCompatActivity() {
         tvLevel4 = findViewById(R.id.ll_level_4_label_value)
         tvLevel5 = findViewById(R.id.ll_level_5_label_value)
         tvLevel6 = findViewById(R.id.ll_level_6_label_value)
+        tvNotHitCount = findViewById(R.id.ll_summary_not_hit_count)
+        tvHitProbability = findViewById(R.id.ll_summary_hit_probability)
 
         initData()
         resetCounts()
@@ -65,13 +70,18 @@ class AutoBuyActivity : AppCompatActivity() {
                 etMoney.setText("")
                 return@setOnClickListener
             }
+
+            btnBuy.isClickable = false
+            etMoney.setText("")
+            etMoney.clearFocus()
+
             if (intMoney % 2 != 0) {
                 intMoney += 1
-                etMoney.setText("$intMoney")
-                etMoney.clearFocus()
             }
             CommonUtil.hideKeyBoard(this, btnBuy)
-            buyRandomNum(intMoney)
+            btnBuy.postDelayed({
+                buyRandomNum(intMoney)
+            }, 200)
         }
     }
 
@@ -94,6 +104,7 @@ class AutoBuyActivity : AppCompatActivity() {
         level4Num = 0
         level5Num = 0
         level6Num = 0
+        notHitCount = 0
     }
 
     private fun buyRandomNum(money: Int) {
@@ -115,6 +126,8 @@ class AutoBuyActivity : AppCompatActivity() {
                 level5Num += 1
             } else if (ballInfo.winLevelInt == 6) {
                 level6Num += 1
+            } else {
+                notHitCount += 1
             }
 
             tvTotalMoney.text = "$totalMoney"
@@ -124,6 +137,10 @@ class AutoBuyActivity : AppCompatActivity() {
             tvLevel4.text = "$level4Num"
             tvLevel5.text = "$level5Num"
             tvLevel6.text = "$level6Num"
+            tvNotHitCount.text = "未中奖：$notHitCount"
+            tvHitProbability.text =
+                "中奖概率：$notHitCount/$size=${(size - notHitCount) * 1.0f * 100 / size}"
         }
+        btnBuy.isClickable = true
     }
 }

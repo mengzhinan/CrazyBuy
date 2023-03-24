@@ -6,11 +6,11 @@ package com.cb.crazybuy.core.bean
  * @Description: 功能描述：
  *
  */
-data class WinningNumber @JvmOverloads constructor(
+data class BuyNumInfo @JvmOverloads constructor(
     var hitRedCount: Int = 0,
     var hitBlueCount: Int = 0,
     var winMoneyInt: Int = 0,
     var winMoneyStr: String? = null,
     var winLevelOrFailureDesc: String? = null,
-    var buyNumList: MutableList<BuyNumShowBean>? = null
+    var buyNumList: MutableList<BuyNumBallHitInfo>? = null
 )

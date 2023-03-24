@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.cb.crazybuy.R
+import com.cb.crazybuy.core.bean.BuyNumInfo
 import com.cb.crazybuy.util.GradientDrawableUtil
 
 /**
@@ -18,9 +19,7 @@ import com.cb.crazybuy.util.GradientDrawableUtil
  * @Description: 功能描述：
  */
 class BallGroupLayout @JvmOverloads constructor(
-    context: Context?,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     companion object {
@@ -33,19 +32,7 @@ class BallGroupLayout @JvmOverloads constructor(
         addTextViews()
     }
 
-    // 红色球、蓝色球命中个数
-    private var redHitCount = 0
-    fun getRedHitCount(): Int {
-        return redHitCount
-    }
-
-    private var blueHitCount = 0
-    fun getBlueHitCount(): Int {
-        return blueHitCount
-    }
-
-    private var prizeNumArray: Array<String>? = null
-    private var myNumArray: Array<String>? = null
+    private var buyNumInfo: BuyNumInfo? = null
 
     private var redDarkBG: GradientDrawable? = null
     private var redLightBG: GradientDrawable? = null
@@ -57,32 +44,24 @@ class BallGroupLayout @JvmOverloads constructor(
             return
         }
         if (redDarkBG == null) {
-            redDarkBG =
-                GradientDrawableUtil.getRoundDrawable(
-                    width,
-                    ContextCompat.getColor(context, R.color.COLOR_FF0000_40)
-                )
+            redDarkBG = GradientDrawableUtil.getRoundDrawable(
+                width, ContextCompat.getColor(context, R.color.COLOR_FF0000_40)
+            )
         }
         if (redLightBG == null) {
-            redLightBG =
-                GradientDrawableUtil.getRoundDrawable(
-                    width,
-                    ContextCompat.getColor(context, R.color.COLOR_FF0000)
-                )
+            redLightBG = GradientDrawableUtil.getRoundDrawable(
+                width, ContextCompat.getColor(context, R.color.COLOR_FF0000)
+            )
         }
         if (blueDarkBG == null) {
-            blueDarkBG =
-                GradientDrawableUtil.getRoundDrawable(
-                    width,
-                    ContextCompat.getColor(context, R.color.COLOR_4586F3_40)
-                )
+            blueDarkBG = GradientDrawableUtil.getRoundDrawable(
+                width, ContextCompat.getColor(context, R.color.COLOR_4586F3_40)
+            )
         }
         if (blueLightBG == null) {
-            blueLightBG =
-                GradientDrawableUtil.getRoundDrawable(
-                    width,
-                    ContextCompat.getColor(context, R.color.COLOR_4586F3)
-                )
+            blueLightBG = GradientDrawableUtil.getRoundDrawable(
+                width, ContextCompat.getColor(context, R.color.COLOR_4586F3)
+            )
         }
     }
 
@@ -98,9 +77,8 @@ class BallGroupLayout @JvmOverloads constructor(
         }
     }
 
-    fun setBalls(myNumArrayTemp: Array<String>?, prizeNumArrayTemp: Array<String>?) {
-        myNumArray = myNumArrayTemp
-        prizeNumArray = prizeNumArrayTemp
+    fun setBalls(buyNumInfoTemp: BuyNumInfo?) {
+        buyNumInfo = buyNumInfoTemp
         requestLayout()
     }
 
@@ -130,8 +108,7 @@ class BallGroupLayout @JvmOverloads constructor(
             for (index in 0 until childCount) {
                 val tv = getChildAt(index) ?: continue
                 val tvParam = tv.layoutParams ?: LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT
                 )
                 tvParam.width = eachChildSide
                 tvParam.height = eachChildSide
@@ -149,11 +126,8 @@ class BallGroupLayout @JvmOverloads constructor(
     }
 
     private fun updateUI() {
-        val myNumLength = myNumArray?.size ?: 0
-        val prizeNumLength = prizeNumArray?.size ?: 0
-
-        redHitCount = 0
-        blueHitCount = 0
+        val ballList = buyNumInfo?.buyNumList
+        val ballSize = ballList?.size ?: 0
 
         if (childCount > 0) {
             for (index in 0 until childCount) {
@@ -161,11 +135,7 @@ class BallGroupLayout @JvmOverloads constructor(
                 val v = getChildAt(index) ?: continue
                 val tv = v as? TextView ?: continue
 
-                if (myNumArray == null
-                    || prizeNumArray == null
-                    || myNumLength != VIEW_COUNT
-                    || prizeNumLength != VIEW_COUNT
-                ) {
+                if (ballList == null || ballSize != VIEW_COUNT) {
                     // 无效数据，设置默认颜色
                     tv.text = "?"
                     if (index == (childCount - 1)) {
@@ -178,29 +148,19 @@ class BallGroupLayout @JvmOverloads constructor(
                 } else {
                     // 有效数据
                     // 设置号码文本
-                    tv.text = myNumArray!![index]
+                    val ballInfo = ballList[index]
+                    tv.text = "${ballInfo.num}"
                     if (index == childCount - 1) {
                         // 蓝色号码球
-                        if (myNumArray!![index] == prizeNumArray!![index]) {
+                        if (ballInfo.isHit) {
                             tv.background = blueLightBG
-                            blueHitCount = 1
                         } else {
                             tv.background = blueDarkBG
-                            blueHitCount = 0
                         }
                     } else {
                         // 红色号码球
-                        val prizeSizeNoBlue = prizeNumArray!!.size - 1
-                        var isHit = false
-                        for (prizeIndex in 0 until prizeSizeNoBlue) {
-                            if (myNumArray!![index] == prizeNumArray!![prizeIndex]) {
-                                isHit = true
-                                break
-                            }
-                        }
-                        if (isHit) {
+                        if (ballInfo.isHit) {
                             tv.background = redLightBG
-                            redHitCount++
                         } else {
                             tv.background = redDarkBG
                         }

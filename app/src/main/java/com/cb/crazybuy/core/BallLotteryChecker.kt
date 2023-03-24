@@ -1,8 +1,8 @@
 package com.cb.crazybuy.core
 
-import com.cb.crazybuy.core.bean.BuyNumShowBean
+import com.cb.crazybuy.core.bean.BuyNumBallHitInfo
 import com.cb.crazybuy.core.bean.StatusBean
-import com.cb.crazybuy.core.bean.WinningNumber
+import com.cb.crazybuy.core.bean.BuyNumInfo
 import com.cb.crazybuy.util.BLog
 
 /**
@@ -55,9 +55,9 @@ object BallLotteryChecker {
     /**
      * 检查有没有中奖
      */
-    fun checkWinningNumbers(buyGroupList: MutableList<Int>): WinningNumber {
+    fun checkWinningNumbers(buyGroupList: MutableList<Int>): BuyNumInfo {
         if (buyGroupList.size != 7) {
-            return WinningNumber(winLevelOrFailureDesc = "failure. buyGroupList.size != 7")
+            return BuyNumInfo(winLevelOrFailureDesc = "failure. buyGroupList.size != 7")
         }
 
         // 截取 开奖 号码的红球
@@ -65,7 +65,7 @@ object BallLotteryChecker {
         // 截取 购买 号码的红球
         val bRedList = buyGroupList.subList(0, buyGroupList.size - 1)
         // 命中的红球 list
-        val hitRedList = mutableListOf<BuyNumShowBean>()
+        val hitRedList = mutableListOf<BuyNumBallHitInfo>()
 
         val commonSet = mutableSetOf<Int>()
         commonSet.addAll(lRedList)
@@ -94,7 +94,7 @@ object BallLotteryChecker {
             0
         }
 
-        val wn = WinningNumber()
+        val wn = BuyNumInfo()
         // 核对中奖结果
         val prizeBean = PrizeRule.getPrizeBean(hitRedCount, hitBlueCount)
         wn.hitRedCount = hitRedCount
@@ -107,8 +107,8 @@ object BallLotteryChecker {
         return wn
     }
 
-    private fun makeBuyNum(num: Int): BuyNumShowBean {
-        return BuyNumShowBean(num, num != NO_NUMBER)
+    private fun makeBuyNum(num: Int): BuyNumBallHitInfo {
+        return BuyNumBallHitInfo(num, num != NO_NUMBER)
     }
 
 }

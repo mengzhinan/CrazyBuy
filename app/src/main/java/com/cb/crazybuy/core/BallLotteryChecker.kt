@@ -22,22 +22,25 @@ object BallLotteryChecker {
     // 开奖号码
     private val lotteryNumberList = mutableListOf<Int>()
 
+    fun getLastLotteryNumList(context: Context): List<String> {
+        val key = context.getString(R.string.sp_save_lottery_num)
+        val str = BaseSPUtil.getString(context, key, "")
+        if (str.trim().isEmpty()) {
+            return listOf()
+        }
+        return str.split(",")
+    }
+
     /**
      * 加载上次设置的开奖号码
      */
     fun loadLastLotteryIfExists(context: Context): StatusBean {
-        val key = context.getString(R.string.sp_save_lottery_num)
-        val str = BaseSPUtil.getString(context, key, "")
-        if (str.trim().isEmpty()) {
-            CommonUtil.toast(context, "未读取到默认开奖号码")
-            return StatusBean(false, "failure. 未读取到默认开奖号码")
-        }
-        val list = str.split(",")
-        if (list.size != 7) {
+        val stringList = getLastLotteryNumList(context)
+        if (stringList.size != 7) {
             CommonUtil.toast(context, "默认开奖号码无效")
             return StatusBean(false, "failure. 默认开奖号码无效")
         }
-        return setCurrentLotteryNumber(context, list)
+        return setCurrentLotteryNumber(context, stringList)
     }
 
     /**
@@ -85,7 +88,7 @@ object BallLotteryChecker {
     /**
      * 检查有没有中奖
      */
-    fun checkWinningNumbers(buyGroupList: MutableList<Int>): BuyNumInfo {
+    fun checkWinningNumbers(buyGroupList: List<String>): BuyNumInfo {
         if (buyGroupList.size != 7) {
             return BuyNumInfo(winLevelOrFailureDesc = "failure. buyGroupList.size != 7")
         }
@@ -102,9 +105,13 @@ object BallLotteryChecker {
 
         // 加入购买的红球，并找出命中的红球
         for (item in bRedList) {
-            if (!commonSet.add(item)) {
+            if (!CommonUtil.isValidNum(item)) {
+                return BuyNumInfo(winLevelOrFailureDesc = "failure. $item 不是有效的数字")
+            }
+            val intItem = CommonUtil.stringToIntSafe(item)
+            if (!commonSet.add(intItem)) {
                 // 重复了，已经存在。即命中了
-                hitRedList.add(makeBuyNum(item))
+                hitRedList.add(makeBuyNum(intItem))
             } else {
                 hitRedList.add(makeBuyNum(NO_NUMBER))
             }
@@ -115,9 +122,13 @@ object BallLotteryChecker {
 
         val lLastItem = lotteryNumberList[lotteryNumberList.size - 1]
         val bLastItem = buyGroupList[buyGroupList.size - 1]
-        val hitBlueCount = if (lLastItem == bLastItem) {
+        if (!CommonUtil.isValidNum(bLastItem)) {
+            return BuyNumInfo(winLevelOrFailureDesc = "failure. $bLastItem 不是有效的数字")
+        }
+        val intBLastItem = CommonUtil.stringToIntSafe(bLastItem)
+        val hitBlueCount = if (lLastItem == intBLastItem) {
             // 最后，如果命中篮球，则加入篮球
-            hitRedList.add(makeBuyNum(bLastItem))
+            hitRedList.add(makeBuyNum(intBLastItem))
             1
         } else {
             hitRedList.add(makeBuyNum(NO_NUMBER))

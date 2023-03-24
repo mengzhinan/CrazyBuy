@@ -1,5 +1,6 @@
 package com.cb.crazybuy.core
 
+import com.cb.crazybuy.core.bean.BuyNumShowBean
 import com.cb.crazybuy.core.bean.StatusBean
 import com.cb.crazybuy.core.bean.WinningNumber
 import com.cb.crazybuy.util.BLog
@@ -64,7 +65,7 @@ object BallLotteryChecker {
         // 截取 购买 号码的红球
         val bRedList = buyGroupList.subList(0, buyGroupList.size - 1)
         // 命中的红球 list
-        val hitRedList = mutableListOf<Int>()
+        val hitRedList = mutableListOf<BuyNumShowBean>()
 
         val commonSet = mutableSetOf<Int>()
         commonSet.addAll(lRedList)
@@ -73,9 +74,9 @@ object BallLotteryChecker {
         for (item in bRedList) {
             if (!commonSet.add(item)) {
                 // 重复了，已经存在。即命中了
-                hitRedList.add(item)
+                hitRedList.add(makeBuyNum(item))
             } else {
-                hitRedList.add(NO_NUMBER)
+                hitRedList.add(makeBuyNum(NO_NUMBER))
             }
         }
 
@@ -86,10 +87,10 @@ object BallLotteryChecker {
         val bLastItem = buyGroupList[buyGroupList.size - 1]
         val hitBlueCount = if (lLastItem == bLastItem) {
             // 最后，如果命中篮球，则加入篮球
-            hitRedList.add(bLastItem)
+            hitRedList.add(makeBuyNum(bLastItem))
             1
         } else {
-            hitRedList.add(NO_NUMBER)
+            hitRedList.add(makeBuyNum(NO_NUMBER))
             0
         }
 
@@ -101,11 +102,13 @@ object BallLotteryChecker {
         wn.winMoneyInt = prizeBean.winMoneyInt
         wn.winMoneyStr = prizeBean.winMoneyStr
         wn.winLevelOrFailureDesc = prizeBean.winLevelDesc
-        wn.lotteryBallBKP = lotteryNumberList.toString()
-        wn.buyGroupBKP = buyGroupList.toString()
-        wn.hitBallBKP = hitRedList.toString()
+        wn.buyNumList = hitRedList
 
         return wn
+    }
+
+    private fun makeBuyNum(num: Int): BuyNumShowBean {
+        return BuyNumShowBean(num, num != NO_NUMBER)
     }
 
 }

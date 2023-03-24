@@ -26,6 +26,7 @@ object PrizeRule {
         if (firstCondition) {
             prizeBean.winMoneyInt = 5_000_000
             prizeBean.winMoneyStr = "浮动，几百万哦"
+            prizeBean.winLevelInt = 1
             prizeBean.winLevelDesc = "一等奖"
             return prizeBean
         }
@@ -35,6 +36,7 @@ object PrizeRule {
         if (twoCondition) {
             prizeBean.winMoneyInt = 200_000
             prizeBean.winMoneyStr = "浮动，几十万哦"
+            prizeBean.winLevelInt = 2
             prizeBean.winLevelDesc = "二等奖"
             return prizeBean
         }
@@ -44,6 +46,7 @@ object PrizeRule {
         if (threeCondition) {
             prizeBean.winMoneyInt = 3000
             prizeBean.winMoneyStr = "3000 元"
+            prizeBean.winLevelInt = 3
             prizeBean.winLevelDesc = "三等奖"
             return prizeBean
         }
@@ -54,6 +57,7 @@ object PrizeRule {
         if (fourCondition1 || fourCondition2) {
             prizeBean.winMoneyInt = 200
             prizeBean.winMoneyStr = "200 元"
+            prizeBean.winLevelInt = 4
             prizeBean.winLevelDesc = "四等奖"
             return prizeBean
         }
@@ -64,6 +68,7 @@ object PrizeRule {
         if (fiveCondition1 || fiveCondition2) {
             prizeBean.winMoneyInt = 10
             prizeBean.winMoneyStr = "10 元"
+            prizeBean.winLevelInt = 5
             prizeBean.winLevelDesc = "五等奖"
             return prizeBean
         }
@@ -73,6 +78,7 @@ object PrizeRule {
             if (hitRedCount in 0..2) {
                 prizeBean.winMoneyInt = 5
                 prizeBean.winMoneyStr = "5 元"
+                prizeBean.winLevelInt = 6
                 prizeBean.winLevelDesc = "六等奖"
                 return prizeBean
             }

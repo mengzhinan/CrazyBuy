@@ -25,24 +25,24 @@ object BallRandomHelper {
      * @param random 随机对象
      * @param maxLimit 最大数字。必须是正整数
      */
-    private fun randomNum(random: Random, maxLimit: Int): Int {
+    private fun randomNum(random: Random, maxLimit: Int): String {
         if (maxLimit <= 0) {
-            return -1
+            return "-1"
         }
         // [0, maxLimit - 1]
         val n = random.nextInt(maxLimit)
         // [1, maxLimit]
-        return n + 1
+        return "${n + 1}"
     }
 
     /**
      * 产生 6 个不同的红球
      */
-    private fun randomSixRedOrdered(random: Random): MutableList<Int> {
-        val set = mutableSetOf<Int>()
+    private fun randomSixRedOrdered(random: Random): MutableList<String> {
+        val set = mutableSetOf<String>()
         do {
             val n = randomNum(random, RANGE_MAX_RED)
-            set.add(n)
+            set.add("$n")
         } while (set.size < COUNT_MAX_RED)
         val list = set.toMutableList()
         list.sort()
@@ -52,14 +52,14 @@ object BallRandomHelper {
     /**
      * 产生 1 个篮球
      */
-    private fun randomOneBlue(random: Random): Int {
+    private fun randomOneBlue(random: Random): String {
         return randomNum(random, RANGE_MAX_BLUE)
     }
 
     /**
      * 产生一组「双色球」彩票号码。6 个红球，1 个篮球。
      */
-    fun buyOnGroup(): MutableList<Int> {
+    fun buyOneGroup(): MutableList<String> {
         val random = Random()
         // 6 个红球
         val orderedList = randomSixRedOrdered(random)

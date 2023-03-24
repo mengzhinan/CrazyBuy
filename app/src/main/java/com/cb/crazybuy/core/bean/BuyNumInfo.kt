@@ -11,6 +11,7 @@ data class BuyNumInfo @JvmOverloads constructor(
     var hitBlueCount: Int = 0,
     var winMoneyInt: Int = 0,
     var winMoneyStr: String? = null,
+    var winLevelInt: Int = 0,
     var winLevelOrFailureDesc: String? = null,
     var buyNumList: MutableList<BuyNumBallHitInfo>? = null
 )

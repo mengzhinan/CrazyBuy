@@ -142,6 +142,7 @@ object BallLotteryChecker {
         wn.hitBlueCount = hitBlueCount
         wn.winMoneyInt = prizeBean.winMoneyInt
         wn.winMoneyStr = prizeBean.winMoneyStr
+        wn.winLevelInt = prizeBean.winLevelInt
         wn.winLevelOrFailureDesc = prizeBean.winLevelDesc
         wn.buyNumList = hitRedList
 

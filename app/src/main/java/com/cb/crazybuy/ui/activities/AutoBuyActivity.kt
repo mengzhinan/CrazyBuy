@@ -73,6 +73,7 @@ class AutoBuyActivity : AppCompatActivity() {
 
             btnBuy.isClickable = false
             etMoney.clearFocus()
+            resetCounts()
 
             if (intMoney % 2 != 0) {
                 intMoney += 1
@@ -105,10 +106,11 @@ class AutoBuyActivity : AppCompatActivity() {
         level5Num = 0
         level6Num = 0
         notHitCount = 0
+        tvNotHitCount.text = "未中奖次数"
+        tvHitProbability.text = "中奖概率"
     }
 
     private fun buyRandomNum(money: Int, editText: EditText) {
-        resetCounts()
         val size = money / 2
         for (index in 1..size) {
             val ballInfo = BallLotteryChecker.checkWinningNumbers(BallRandomHelper.buyOneGroup())

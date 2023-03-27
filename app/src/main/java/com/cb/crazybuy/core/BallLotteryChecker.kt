@@ -48,12 +48,18 @@ object BallLotteryChecker {
      */
     fun setCurrentLotteryNumber(context: Context, listPram: List<String>): StatusBean {
         val sortedList = mutableListOf<String>()
+        var tempBlue = ""
         for (index in listPram.indices) {
             val newItem =
                 if (listPram[index].length == 1) "0${listPram[index]}" else listPram[index]
-            sortedList.add(newItem)
+            if (index == listPram.size - 1) {
+                tempBlue = newItem
+            } else {
+                sortedList.add(newItem)
+            }
         }
         sortedList.sort()
+        sortedList.add(tempBlue)
         var strNumSP = ""
         lotteryNumberList.clear()
         var blue = 0

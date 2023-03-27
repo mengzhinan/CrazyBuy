@@ -106,6 +106,13 @@ class AutoBuyActivity : AppCompatActivity() {
         level5Num = 0
         level6Num = 0
         notHitCount = 0
+        tvTotalMoney.text = "$totalMoney"
+        tvLevel1.text = "$level1Num"
+        tvLevel2.text = "$level2Num"
+        tvLevel3.text = "$level3Num"
+        tvLevel4.text = "$level4Num"
+        tvLevel5.text = "$level5Num"
+        tvLevel6.text = "$level6Num"
         tvNotHitCount.text = "未中奖次数"
         tvHitProbability.text = "中奖概率"
     }
@@ -141,7 +148,7 @@ class AutoBuyActivity : AppCompatActivity() {
             tvLevel6.text = "$level6Num"
             tvNotHitCount.text = "未中奖：$notHitCount"
             tvHitProbability.text =
-                "中奖概率：$notHitCount/$size=${(size - notHitCount) * 1.0f * 100 / size}"
+                "中奖概率：${(size - notHitCount)}*100.0F/$size=${(size - notHitCount) * 100.0F / size} %"
         }
         editText.setText("")
         btnBuy.isClickable = true
